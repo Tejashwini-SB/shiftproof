@@ -1,0 +1,8 @@
+{
+  "name": "ShiftProof: Verifiable Load-Shift Rewards",
+  "description": "Verifiable renewable load-shift rewards with smart contract baseline settlement, oracle meter hashing, and AI solar forecasting.",
+  "permissions": [],
+  "capabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
+}

@@ -1,0 +1,171 @@
+import { ShiftProofData } from '../types';
+
+export const defaultShiftProofData: ShiftProofData = {
+  sim: {
+    eligibleHours: [11, 12, 13, 14],
+    forecastWh: [
+      0, 0, 0, 0, 0, 0, 0, 976, 1861, 2669, 3239, 3619, 3751, 3619, 3239, 2669, 1861, 976, 0, 0, 0, 0, 0, 0
+    ],
+    solarActualWh: [
+      0, 0, 0, 0, 0, 0, 0, 1133, 2188, 3095, 3790, 4227, 4377, 4227, 3790, 3095, 2188, 1133, 0, 0, 0, 0, 0, 0
+    ],
+    metrics: {
+      forecast_mae_wh: 129.5,
+      forecast_r2: 0.984,
+      anomaly_tp: 4,
+      anomaly_fp: 1,
+      anomaly_fn: 0,
+      anomaly_precision: 0.8,
+      anomaly_recall: 1,
+      note: 'simulated data; anomalies were injected by us, so this is a sanity check, not real-world accuracy'
+    },
+    capWh: 10000,
+    eventDay: 100
+  },
+  results: [
+    {
+      id: 1,
+      title: 'Honest shift',
+      story: 'Evening load moved into solar hours. Rules apply the fixed baseline.',
+      attack: false,
+      anchoredBaseline: [
+        1013, 977, 989, 1043, 1017, 995, 1478, 1507, 1473, 983, 1002, 1034, 972, 979, 1001, 1008, 997, 1010, 4251, 4215, 4228, 4223, 1018, 1001
+      ],
+      claimedBaseline: [
+        1013, 977, 989, 1043, 1017, 995, 1478, 1507, 1473, 983, 1002, 1034, 972, 979, 1001, 1008, 997, 1010, 4251, 4215, 4228, 4223, 1018, 1001
+      ],
+      actual: [
+        1018, 942, 999, 1031, 1042, 982, 1465, 1518, 1488, 992, 968, 2982, 2888, 2921, 2910, 1017, 981, 984, 2328, 2283, 2279, 2315, 1009, 1002
+      ],
+      eligibleHours: [11, 12, 13, 14],
+      capWh: 10000,
+      outcome: { status: 'rewarded', rewardWh: 7715 }
+    },
+    {
+      id: 2,
+      title: 'Inflated baseline',
+      story: "User claims a bigger 'normal' evening (+80%) to fake savings.",
+      attack: true,
+      anchoredBaseline: [
+        1013, 977, 989, 1043, 1017, 995, 1478, 1507, 1473, 983, 1002, 1034, 972, 979, 1001, 1008, 997, 1010, 4251, 4215, 4228, 4223, 1018, 1001
+      ],
+      claimedBaseline: [
+        1013, 977, 989, 1043, 1017, 995, 1478, 1507, 1473, 983, 1002, 1034, 972, 979, 1001, 1008, 997, 1010, 7652, 7586, 7610, 7601, 1018, 1001
+      ],
+      actual: [
+        1018, 942, 999, 1031, 1042, 982, 1465, 1518, 1488, 992, 968, 2982, 2888, 2921, 2910, 1017, 981, 984, 2328, 2283, 2279, 2315, 1009, 1002
+      ],
+      eligibleHours: [11, 12, 13, 14],
+      capWh: 10000,
+      outcome: { status: 'rejected', error: 'HashMismatch', args: ['93'] }
+    },
+    {
+      id: 3,
+      title: 'Edited history',
+      story: 'User edits one old day (+40% evening) after seeing the event rules.',
+      attack: true,
+      anchoredBaseline: [
+        1013, 977, 989, 1043, 1017, 995, 1478, 1507, 1473, 983, 1002, 1034, 972, 979, 1001, 1008, 997, 1010, 4251, 4215, 4228, 4223, 1018, 1001
+      ],
+      claimedBaseline: [
+        1013, 977, 989, 1043, 1017, 995, 1478, 1507, 1473, 983, 1002, 1034, 972, 979, 1001, 1008, 997, 1010, 4677, 4639, 4646, 4646, 1018, 1001
+      ],
+      actual: [
+        1018, 942, 999, 1031, 1042, 982, 1465, 1518, 1488, 992, 968, 2982, 2888, 2921, 2910, 1017, 981, 984, 2328, 2283, 2279, 2315, 1009, 1002
+      ],
+      eligibleHours: [11, 12, 13, 14],
+      capWh: 10000,
+      outcome: { status: 'rejected', error: 'HashMismatch', args: ['79'] }
+    },
+    {
+      id: 4,
+      title: 'Fake savings',
+      story: 'Meter shows no shift, but the user submits readings with a big shift.',
+      attack: true,
+      anchoredBaseline: [
+        1013, 977, 989, 1043, 1017, 995, 1478, 1507, 1473, 983, 1002, 1034, 972, 979, 1001, 1008, 997, 1010, 4251, 4215, 4228, 4223, 1018, 1001
+      ],
+      claimedBaseline: [
+        1013, 977, 989, 1043, 1017, 995, 1478, 1507, 1473, 983, 1002, 1034, 972, 979, 1001, 1008, 997, 1010, 4251, 4215, 4228, 4223, 1018, 1001
+      ],
+      actual: [
+        1018, 942, 999, 1031, 1042, 982, 1465, 1518, 1488, 992, 968, 2982, 2888, 2921, 2910, 1017, 981, 984, 2328, 2283, 2279, 2315, 1009, 1002
+      ],
+      eligibleHours: [11, 12, 13, 14],
+      capWh: 10000,
+      outcome: { status: 'rejected', error: 'HashMismatch', args: ['100'] }
+    },
+    {
+      id: 5,
+      title: 'Cherry-picked days',
+      story: 'User submits high-usage decoy days instead of the required weekdays.',
+      attack: true,
+      anchoredBaseline: [
+        1013, 977, 989, 1043, 1017, 995, 1478, 1507, 1473, 983, 1002, 1034, 972, 979, 1001, 1008, 997, 1010, 4251, 4215, 4228, 4223, 1018, 1001
+      ],
+      claimedBaseline: [
+        971, 940, 881, 978, 1097, 1017, 1498, 1539, 1458, 988, 1004, 997, 1032, 1014, 1027, 972, 1036, 1065, 7562, 7567, 7727, 7618, 1056, 982
+      ],
+      actual: [
+        1018, 942, 999, 1031, 1042, 982, 1465, 1518, 1488, 992, 968, 2982, 2888, 2921, 2910, 1017, 981, 984, 2328, 2283, 2279, 2315, 1009, 1002
+      ],
+      eligibleHours: [11, 12, 13, 14],
+      capWh: 10000,
+      outcome: { status: 'rejected', error: 'HashMismatch', args: ['93'] }
+    },
+    {
+      id: 6,
+      title: 'Duplicate claim',
+      story: 'User settles the same event twice.',
+      attack: true,
+      anchoredBaseline: [
+        1013, 977, 989, 1043, 1017, 995, 1478, 1507, 1473, 983, 1002, 1034, 972, 979, 1001, 1008, 997, 1010, 4251, 4215, 4228, 4223, 1018, 1001
+      ],
+      claimedBaseline: [
+        1013, 977, 989, 1043, 1017, 995, 1478, 1507, 1473, 983, 1002, 1034, 972, 979, 1001, 1008, 997, 1010, 4251, 4215, 4228, 4223, 1018, 1001
+      ],
+      actual: [
+        1018, 942, 999, 1031, 1042, 982, 1465, 1518, 1488, 992, 968, 2982, 2888, 2921, 2910, 1017, 981, 984, 2328, 2283, 2279, 2315, 1009, 1002
+      ],
+      eligibleHours: [11, 12, 13, 14],
+      capWh: 10000,
+      outcome: { status: 'rejected', error: 'AlreadySettled', args: [], firstRewardWh: 7715 }
+    },
+    {
+      id: 7,
+      title: 'Late-anchored history',
+      story: 'History day anchored after the event was announced.',
+      attack: true,
+      anchoredBaseline: [
+        1013, 977, 989, 1043, 1017, 995, 1478, 1507, 1473, 983, 1002, 1034, 972, 979, 1001, 1008, 997, 1010, 4251, 4215, 4228, 4223, 1018, 1001
+      ],
+      claimedBaseline: [
+        1013, 977, 989, 1043, 1017, 995, 1478, 1507, 1473, 983, 1002, 1034, 972, 979, 1001, 1008, 997, 1010, 4251, 4215, 4228, 4223, 1018, 1001
+      ],
+      actual: [
+        1018, 942, 999, 1031, 1042, 982, 1465, 1518, 1488, 992, 968, 2982, 2888, 2921, 2910, 1017, 981, 984, 2328, 2283, 2279, 2315, 1009, 1002
+      ],
+      eligibleHours: [11, 12, 13, 14],
+      capWh: 10000,
+      outcome: { status: 'rejected', error: 'HistoryAnchoredLate', args: ['72'] }
+    },
+    {
+      id: 8,
+      title: 'Rebound',
+      story: 'User shifts load but also uses more energy overall, so the reward shrinks.',
+      attack: false,
+      anchoredBaseline: [
+        1013, 977, 989, 1043, 1017, 995, 1478, 1507, 1473, 983, 1002, 1034, 972, 979, 1001, 1008, 997, 1010, 4251, 4215, 4228, 4223, 1018, 1001
+      ],
+      claimedBaseline: [
+        1013, 977, 989, 1043, 1017, 995, 1478, 1507, 1473, 983, 1002, 1034, 972, 979, 1001, 1008, 997, 1010, 4251, 4215, 4228, 4223, 1018, 1001
+      ],
+      actual: [
+        1718, 1642, 1699, 1731, 1742, 1682, 1465, 1518, 1488, 992, 968, 2982, 2888, 2921, 2910, 1017, 981, 984, 2328, 2283, 2279, 2315, 1009, 1002
+      ],
+      eligibleHours: [11, 12, 13, 14],
+      capWh: 10000,
+      outcome: { status: 'rewarded', rewardWh: 3585 }
+    }
+  ]
+};

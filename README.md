@@ -101,12 +101,16 @@ Expected output: 8 lines like `1 Honest shift { status: 'rewarded', rewardWh: 77
 The dashboard loads `results.json` at runtime, so it needs a local web server:
 
 ```powershell
+# Option A: React + Vite dashboard
+npm run dev
+# Then open http://localhost:3000
+
+# Option B: Direct static dashboard
 python -m http.server 8000 --directory dashboard
+# Then open http://localhost:8000
 ```
 
-Then open **http://localhost:8000** in your browser.
-
-You will see 8 tabs — one per scenario — with an interactive chart, the contract's step-by-step checks, and the reward calculation. Click any tab or press "Auto-play the attacks" to cycle through.
+You will see 8 tabs — one per scenario — with an interactive 24-hour chart, 4 distinct metric summary cards, the smart contract's step-by-step verification checks, and mathematical reward calculation. Click any tab or press "Auto-play attacks" to cycle through.
 
 > To stop the server press **Ctrl+C** in the terminal.
 
