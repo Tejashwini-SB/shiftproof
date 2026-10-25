@@ -74,16 +74,23 @@ ol.tl{list-style:none;margin:0;padding:0}
 <p class="lim">Limits: the meter oracle is trusted, the data is simulated, and a four-week average ignores weather and holidays. The anomaly check was tested on anomalies we injected, so it is a sanity check, not real-world accuracy.</p>
 </div>
 <script>
-const D={"sim":{"eligibleHours":[11,12,13,14],"forecastWh":[0,0,0,0,0,0,0,976,1861,2669,3239,3619,3751,3619,3239,2669,1861,976,0,0,0,0,0,0],"solarActualWh":[0,0,0,0,0,0,0,1133,2188,3095,3790,4227,4377,4227,3790,3095,2188,1133,0,0,0,0,0,0],"metrics":{"forecast_mae_wh":129.5,"forecast_r2":0.984,"anomaly_tp":4,"anomaly_fp":1,"anomaly_fn":0,"anomaly_precision":0.8,"anomaly_recall":1,"note":"simulated data; anomalies were injected by us, so this is a sanity check, not real-world accuracy"},"capWh":10000,"eventDay":100},"results":[{"id":1,"title":"Honest shift","story":"Evening load moved into solar hours. Rules apply the fixed baseline.","attack":false,"anchoredBaseline":[1013,977,989,1043,1017,995,1478,1507,1473,983,1002,1034,972,979,1001,1008,997,1010,4251,4215,4228,4223,1018,1001],"claimedBaseline":[1013,977,989,1043,1017,995,1478,1507,1473,983,1002,1034,972,979,1001,1008,997,1010,4251,4215,4228,4223,1018,1001],"actual":[1018,942,999,1031,1042,982,1465,1518,1488,992,968,2982,2888,2921,2910,1017,981,984,2328,2283,2279,2315,1009,1002],"eligibleHours":[11,12,13,14],"capWh":10000,"outcome":{"status":"rewarded","rewardWh":7715}},{"id":2,"title":"Inflated baseline","story":"User claims a bigger normal evening and a smaller normal midday to inflate the reward.","attack":true,"anchoredBaseline":[1013,977,989,1043,1017,995,1478,1507,1473,983,1002,1034,972,979,1001,1008,997,1010,4251,4215,4228,4223,1018,1001],"claimedBaseline":[1013,977,989,1043,1017,995,1478,1507,1473,983,1002,310,292,294,300,1008,997,1010,7652,7586,7610,7601,1018,1001],"actual":[1018,942,999,1031,1042,982,1465,1518,1488,992,968,2982,2888,2921,2910,1017,981,984,2328,2283,2279,2315,1009,1002],"eligibleHours":[11,12,13,14],"capWh":10000,"outcome":{"status":"rejected","error":"HashMismatch","args":["93"]}},{"id":3,"title":"Edited history","story":"User edits one old day after seeing the event rules.","attack":true,"anchoredBaseline":[1013,977,989,1043,1017,995,1478,1507,1473,983,1002,1034,972,979,1001,1008,997,1010,4251,4215,4228,4223,1018,1001],"claimedBaseline":[1013,977,989,1043,1017,995,1478,1507,1473,983,1002,856,797,810,820,1008,997,1010,5104,5064,5064,5070,1018,1001],"actual":[1018,942,999,1031,1042,982,1465,1518,1488,992,968,2982,2888,2921,2910,1017,981,984,2328,2283,2279,2315,1009,1002],"eligibleHours":[11,12,13,14],"capWh":10000,"outcome":{"status":"rejected","error":"HashMismatch","args":["79"]}},{"id":4,"title":"Fake savings","story":"Meter shows no shift, but the user submits readings with a big shift.","attack":true,"anchoredBaseline":[1013,977,989,1043,1017,995,1478,1507,1473,983,1002,1034,972,979,1001,1008,997,1010,4251,4215,4228,4223,1018,1001],"claimedBaseline":[1013,977,989,1043,1017,995,1478,1507,1473,983,1002,1034,972,979,1001,1008,997,1010,4251,4215,4228,4223,1018,1001],"actual":[1018,942,999,1031,1042,982,1465,1518,1488,992,968,2982,2888,2921,2910,1017,981,984,2328,2283,2279,2315,1009,1002],"eligibleHours":[11,12,13,14],"capWh":10000,"outcome":{"status":"rejected","error":"HashMismatch","args":["100"]}},{"id":5,"title":"Cherry-picked days","story":"User submits high-usage decoy days instead of the required weekdays.","attack":true,"anchoredBaseline":[1013,977,989,1043,1017,995,1478,1507,1473,983,1002,1034,972,979,1001,1008,997,1010,4251,4215,4228,4223,1018,1001],"claimedBaseline":[971,940,881,978,1097,1017,1498,1539,1458,988,1004,299,310,304,308,972,1036,1065,7562,7567,7727,7618,1056,982],"actual":[1018,942,999,1031,1042,982,1465,1518,1488,992,968,2982,2888,2921,2910,1017,981,984,2328,2283,2279,2315,1009,1002],"eligibleHours":[11,12,13,14],"capWh":10000,"outcome":{"status":"rejected","error":"HashMismatch","args":["93"]}},{"id":6,"title":"Duplicate claim","story":"User settles the same event twice.","attack":true,"anchoredBaseline":[1013,977,989,1043,1017,995,1478,1507,1473,983,1002,1034,972,979,1001,1008,997,1010,4251,4215,4228,4223,1018,1001],"claimedBaseline":[1013,977,989,1043,1017,995,1478,1507,1473,983,1002,1034,972,979,1001,1008,997,1010,4251,4215,4228,4223,1018,1001],"actual":[1018,942,999,1031,1042,982,1465,1518,1488,992,968,2982,2888,2921,2910,1017,981,984,2328,2283,2279,2315,1009,1002],"eligibleHours":[11,12,13,14],"capWh":10000,"outcome":{"status":"rejected","error":"AlreadySettled","args":[],"firstRewardWh":7715}},{"id":7,"title":"Late-anchored history","story":"History day anchored after the event was announced.","attack":true,"anchoredBaseline":[1013,977,989,1043,1017,995,1478,1507,1473,983,1002,1034,972,979,1001,1008,997,1010,4251,4215,4228,4223,1018,1001],"claimedBaseline":[1013,977,989,1043,1017,995,1478,1507,1473,983,1002,1034,972,979,1001,1008,997,1010,4251,4215,4228,4223,1018,1001],"actual":[1018,942,999,1031,1042,982,1465,1518,1488,992,968,2982,2888,2921,2910,1017,981,984,2328,2283,2279,2315,1009,1002],"eligibleHours":[11,12,13,14],"capWh":10000,"outcome":{"status":"rejected","error":"HistoryAnchoredLate","args":["72"]}},{"id":8,"title":"Rebound","story":"User shifts load but also uses more energy overall, so the reward shrinks.","attack":false,"anchoredBaseline":[1013,977,989,1043,1017,995,1478,1507,1473,983,1002,1034,972,979,1001,1008,997,1010,4251,4215,4228,4223,1018,1001],"claimedBaseline":[1013,977,989,1043,1017,995,1478,1507,1473,983,1002,1034,972,979,1001,1008,997,1010,4251,4215,4228,4223,1018,1001],"actual":[1718,1642,1699,1731,1742,1682,1465,1518,1488,992,968,2982,2888,2921,2910,1017,981,984,2328,2283,2279,2315,1009,1002],"eligibleHours":[11,12,13,14],"capWh":10000,"outcome":{"status":"rewarded","rewardWh":3585}}]},$=s=>document.querySelector(s),EL=D.sim.eligibleHours,CAP=D.sim.capWh,EV=D.sim.eventDay,SOL=D.sim.forecastWh;
+/* ShiftProof dashboard — loads results.json via fetch() at runtime.
+   No real payments are made; rewards are calculated numbers only.
+   To view: python -m http.server 8000 --directory dashboard
+   then open http://localhost:8000                                     */
+const $=s=>document.querySelector(s);
 const kwh=w=>(w/1000).toFixed(2),hr=h=>String(h).padStart(2,"0")+":00";
 const RM=matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+function init(D){
+const EL=D.sim.eligibleHours,CAP=D.sim.capWh,EV=D.sim.eventDay,SOL=D.sim.forecastWh;
 function calc(b,a){let d=0,r=0,bt=0,at=0;for(let h=0;h<24;h++){bt+=b[h];at+=a[h];if(EL.includes(h)){if(a[h]>b[h])r+=a[h]-b[h]}else if(b[h]>a[h])d+=b[h]-a[h]}
  const m=Math.min(d,r),c=Math.min(m,CAP),rb=Math.max(0,at-bt);return{d,r,c,rb,reward:Math.max(0,c-rb)}}
-const STEPS=["Event is open and before its deadline","This meter has not been paid for this event","All four history days were recorded","History was recorded before the event was announced","History matches the hashes the oracle stored","Event-day readings match the meter’s hash","Reward worked out by the fixed rules"];
+const STEPS=["Event is open and before its deadline","This meter has not been settled for this event","All four history days were recorded","History was recorded before the event was announced","History matches the hashes the oracle stored","Event-day readings match the meter's hash","Reward calculated by the fixed rules"];
 const failIdx=o=>o.status==="rewarded"?-1:({AlreadySettled:1,HistoryNotAnchored:2,HistoryAnchoredLate:3,HashMismatch:+o.args[0]===EV?5:4})[o.error]??6;
-const WHY=o=>o.error==="HashMismatch"?(+o.args[0]===EV?"The submitted readings differ from what the meter recorded.":"Day "+o.args[0]+" was changed after it was recorded."):o.error==="HistoryAnchoredLate"?"Day "+o.args[0]+" was recorded after the event was announced.":o.error==="AlreadySettled"?"Event 1 was already paid to this meter.":"The contract refused this claim.";
-const HEAD=(r,c)=>{const o=r.outcome;if(o.status==="rewarded")return c.rb>0?"Reward cut: total energy use went up.":kwh(o.rewardWh)+" kWh moved into the sun. Reward paid.";
- return o.error==="HashMismatch"?(+o.args[0]===EV?"Blocked: the readings don’t match the meter.":"Blocked: the baseline was changed."):o.error==="HistoryAnchoredLate"?"Blocked: that history was recorded too late to trust.":o.error==="AlreadySettled"?"Blocked: this event was already paid.":"Blocked by the contract."};
+const WHY=o=>o.error==="HashMismatch"?(+o.args[0]===EV?"The submitted readings differ from what the meter recorded.":"Day "+o.args[0]+" was changed after it was recorded."):o.error==="HistoryAnchoredLate"?"Day "+o.args[0]+" was recorded after the event was announced.":o.error==="AlreadySettled"?"Event 1 was already settled for this meter.":"The contract refused this claim.";
+const HEAD=(r,c)=>{const o=r.outcome;if(o.status==="rewarded")return c.rb>0?"Reward cut: total energy use went up.":kwh(o.rewardWh)+" kWh moved into the sun. Reward calculated (simulated).";
+ return o.error==="HashMismatch"?(+o.args[0]===EV?"Blocked: the readings don't match the meter.":"Blocked: the baseline was changed."):o.error==="HistoryAnchoredLate"?"Blocked: that history was recorded too late to trust.":o.error==="AlreadySettled"?"Blocked: this event was already settled.":"Blocked by the contract."};
 const info=D.results.map(r=>{const c=calc(r.claimedBaseline,r.actual);return{c,fraud:r.outcome.status==="rejected"?(r.outcome.firstRewardWh!=null?r.outcome.firstRewardWh:c.reward):0}});
 let cur=0,timer=null;
 function tabs(){$("#tabs").innerHTML=D.results.map((r,i)=>`<button class="tab ${r.outcome.status==="rewarded"?"ok":"no"}" role="tab" data-i="${i}"><i>${r.outcome.status==="rewarded"?"✔":"✕"}</i>${r.title}</button>`).join("")}
@@ -99,37 +106,60 @@ function chart(r,c){const W=720,H=300,L=36,R=10,T=16,B=26,sl=(W-L-R)/24,X=h=>L+(
  const diff=r.claimedBaseline.some((v,h)=>v!==r.anchoredBaseline[h]);if(diff)s+=`<path d="${sm(pts(r.claimedBaseline))}" fill="none" stroke="var(--bad)" stroke-width="2.5" stroke-dasharray="2 4" stroke-linecap="round"/>`;
  const a=calc(r.anchoredBaseline,r.actual);
  if(a.d>0&&a.r>0){const x1=X(19),y1=Y(r.anchoredBaseline[19])-8,x2=X(12.5),y2=Y(r.actual[12])-10,col=r.outcome.status==="rewarded"?"var(--teal)":"var(--bad)",p=`M${x1},${y1}C${x1-90},${y1-80} ${x2+90},${y2-80} ${x2},${y2}`;
-  s+=`<path id="fp" d="${p}" fill="none" stroke="${col}" stroke-width="2" marker-end="url(#ah)" ${r.outcome.status==="rewarded"?"":"stroke-dasharray='4 4'"}/><text x="${(x1+x2)/2}" y="${Math.min(y1,y2)-62}" text-anchor="middle" font-size="13" font-weight="600" fill="${col}">${kwh(a.c)} kWh shifted</text>`;
+  s+=`<path id="fp" d="${p}" fill="none" stroke="${col}" stroke-width="2" marker-end="url(#ah)" ${r.outcome.status==="rewarded"?"":"stroke-dasharray='4 4'"}/>`;
+  s+=`<text x="${(x1+x2)/2}" y="${Math.min(y1,y2)-62}" text-anchor="middle" font-size="13" font-weight="600" fill="${col}">${kwh(a.c)} kWh shifted (simulated)</text>`;
   if(!RM&&r.outcome.status==="rewarded")for(let k=0;k<4;k++)s+=`<circle r="4" fill="var(--sun)"><animateMotion dur="2.4s" begin="${k*.6}s" repeatCount="indefinite"><mpath href="#fp"/></animateMotion></circle>`}
  for(let h=0;h<24;h+=3)s+=`<text x="${X(h)}" y="${H-8}" class="ax" text-anchor="middle">${hr(h)}</text>`;
- s+=`<text x="${L}" y="10" class="ax">kWh per hour</text><line id="cur" y1="${T}" y2="${H-B}" stroke="var(--ink)" opacity="0" /><rect id="hit" x="${L}" y="${T}" width="${W-L-R}" height="${H-T-B}" fill="transparent"/>`;
- $("#chart").innerHTML=`<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="Hourly baseline, actual use and solar forecast">${s}</svg>`;
- $("#legend").innerHTML=`<span><i class="sw" style="color:var(--sun)"></i>Solar forecast</span><span><i class="sw" style="color:var(--mut);border-top-style:dashed"></i>Recorded baseline</span><span><i class="sw" style="color:var(--teal)"></i>Actual use</span>`+(diff?`<span><i class="sw" style="color:var(--bad);border-top-style:dotted"></i>Baseline the user claimed</span>`:"")+`<span>Shaded: AI-chosen solar hours</span>`;
+ s+=`<text x="${L}" y="10" class="ax">kWh per hour (simulated)</text><line id="cur" y1="${T}" y2="${H-B}" stroke="var(--ink)" opacity="0" /><rect id="hit" x="${L}" y="${T}" width="${W-L-R}" height="${H-T-B}" fill="transparent"/>`;
+ $("#chart").innerHTML=`<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="Hourly baseline, actual use and solar forecast (simulated data)">${s}</svg>`;
+ $("#legend").innerHTML=`<span><i class="sw" style="color:var(--sun)"></i>Solar forecast (simulated)</span><span><i class="sw" style="color:var(--mut);border-top-style:dashed"></i>Recorded baseline (simulated)</span><span><i class="sw" style="color:var(--teal)"></i>Actual use (simulated)</span>`+(diff?`<span><i class="sw" style="color:var(--bad);border-top-style:dotted"></i>Baseline the user claimed</span>`:"")+`<span>Shaded: AI-chosen solar hours</span>`;
  const hit=$("#hit"),cu=$("#cur"),tip=$("#tip");
  hit.onpointermove=e=>{const sv=$("#chart svg"),bb=sv.getBoundingClientRect(),px=(e.clientX-bb.left)/bb.width*W,h=Math.max(0,Math.min(23,Math.floor((px-L)/sl)));
   cu.setAttribute("x1",X(h));cu.setAttribute("x2",X(h));cu.setAttribute("opacity",.35);
   tip.style.display="block";tip.innerHTML=`<b>${hr(h)}</b><br>Baseline ${kwh(r.anchoredBaseline[h])} · Actual ${kwh(r.actual[h])}<br>Solar ${kwh(SOL[h])} kWh`.replace(/ · /,"<br>");
   const cw=$("#cw").getBoundingClientRect();tip.style.left=Math.min(e.clientX-cw.left+14,cw.width-150)+"px";tip.style.top="10px"};
  hit.onpointerleave=()=>{tip.style.display="none";cu.setAttribute("opacity",0)}}
-function count(el,to,suffix){if(RM||to===0){el.firstChild.textContent=kwh(to);return}const t0=performance.now();(function f(t){const k=Math.min(1,(t-t0)/700);el.firstChild.textContent=kwh(to*(1-Math.pow(1-k,3)));if(k<1)requestAnimationFrame(f)})(t0)}
+function count(el,to){if(RM||to===0){el.firstChild.textContent=kwh(to);return}const t0=performance.now();(function f(t){const k=Math.min(1,(t-t0)/700);el.firstChild.textContent=kwh(to*(1-Math.pow(1-k,3)));if(k<1)requestAnimationFrame(f)})(t0)}
 function show(i){cur=i;const r=D.results[i],o=r.outcome,{c,fraud}=info[i],ok=o.status==="rewarded",f=failIdx(o);
  document.querySelectorAll(".tab").forEach(b=>b.setAttribute("aria-selected",String(+b.dataset.i===i)));
  $("#h1").textContent=HEAD(r,c);$("#story").textContent=r.story;
- $("#big").className="big "+(ok?"good":"bad");$("#big").innerHTML=`<span>0.00</span><b>kWh</b><small>${ok?"reward paid":"paid. The claim would have been worth "+kwh(fraud)+" kWh"}</small>`;
+ $("#big").className="big "+(ok?"good":"bad");
+ $("#big").innerHTML=`<span>0.00</span><b>kWh</b><small>${ok?"reward calculated (simulated)":"calculated. This claim would have been worth "+kwh(fraud)+" kWh"}</small>`;
  count($("#big"),ok?o.rewardWh:0);
  $("#steps").innerHTML=STEPS.map((t,k)=>{const st=f<0||k<f?"":k===f?"f":"u";return`<li class="${st}"><span class="n">${st==="f"?"✕":st==="u"?"":"✔"}</span>${t}${st==="f"?`<em>${WHY(o)}</em>`:""}</li>`}).join("");
  const mx=Math.max(c.d,c.r,CAP,1),rows=[["Moved out of the evening",c.d],["Moved into solar hours",c.r],["Event cap",CAP],["Extra use (penalty)",c.rb]];
  $("#mathp").className="panel"+(ok?"":" void");
- $("#math").innerHTML=(ok?"":`<p class="note">If this claim had been accepted:</p>`)+rows.map(x=>`<div class="row"><span>${x[0]}</span><span class="trk"><i style="width:${x[1]/mx*100}%"></i></span><b>${kwh(x[1])}</b></div>`).join("")+`<div class="res"><span>Reward</span><span>${kwh(c.reward)} kWh</span></div><p class="note" style="margin-top:8px">The reward is the smallest of the first three, minus the penalty.</p>`;
+ $("#math").innerHTML=(ok?"":`<p class="note">If this claim had been accepted:</p>`)+rows.map(x=>`<div class="row"><span>${x[0]}</span><span class="trk"><i style="width:${x[1]/mx*100}%"></i></span><b>${kwh(x[1])}</b></div>`).join("")+`<div class="res"><span>Reward (calculated)</span><span>${kwh(c.reward)} kWh</span></div><p class="note" style="margin-top:8px">The reward is the smallest of the first three, minus the penalty. No real payment is made in this prototype.</p>`;
  chart(r,c)}
 function facts(){const m=D.sim.metrics,e=EL.reduce((s,h)=>s|1<<h,0),nb=D.results.filter(r=>r.attack).length;
  $("#facts").innerHTML=[["Event day",EV],["History days","93, 86, 79, 72"],["Solar-hour mask","0x"+e.toString(16)],["Event cap",kwh(CAP)+" kWh"],["Attacks stopped in this lab",nb+" of "+nb]].map(x=>`<div>${x[0]}<b>${x[1]}</b></div>`).join("");
- $("#ai").textContent=`The AI advisor chose ${hr(EL[0])} to ${hr(EL[EL.length-1]+1)} for flexible loads. On simulated days its solar forecast is off by ${m.forecast_mae_wh} Wh an hour on average (R² ${m.forecast_r2}), and its history check caught ${m.anomaly_tp} of ${m.anomaly_tp+m.anomaly_fn} injected anomalies with ${m.anomaly_fp} false alarm${m.anomaly_fp===1?"":"s"}. It only advises. The reward comes from fixed rules.`}
+ $("#ai").textContent=`The AI advisor chose ${hr(EL[0])} to ${hr(EL[EL.length-1]+1)} for flexible loads. On simulated days its solar forecast is off by ${m.forecast_mae_wh} Wh an hour on average (R\u00b2 ${m.forecast_r2}), and its history check caught ${m.anomaly_tp} of ${m.anomaly_tp+m.anomaly_fn} injected anomalies with ${m.anomaly_fp} false alarm${m.anomaly_fp===1?"":"s"}. It only advises. The reward comes from fixed rules. All data is simulated.`}
 function stop(){if(timer){clearInterval(timer);timer=null;$("#play").textContent="Auto-play the attacks"}}
 $("#tabs").onclick=e=>{const b=e.target.closest(".tab");if(b){stop();show(+b.dataset.i)}};
 $("#play").onclick=()=>{if(timer){stop();return}$("#play").textContent="Pause auto-play";timer=setInterval(()=>show((cur+1)%D.results.length),4500)};
 $("#theme").onclick=()=>{const d=document.documentElement,dk=(d.dataset.theme||(matchMedia("(prefers-color-scheme: dark)").matches?"dark":"light"))==="dark";d.dataset.theme=dk?"light":"dark"};
 tabs();facts();show(0);
+} // end init()
+
+// Loads results.json at runtime — re-run "npm run scenarios" and refresh to see updated results.
+fetch("results.json")
+  .then(r=>{
+    if(!r.ok) throw new Error("HTTP "+r.status);
+    return r.json();
+  })
+  .then(D=>init(D))
+  .catch(err=>{
+    document.body.insertAdjacentHTML("afterbegin",
+      `<div style="background:#d1495b;color:#fff;padding:14px 18px;font-size:15px;line-height:1.8">
+        <b>Could not load results.json.</b><br>
+        Open the dashboard with a local server, then refresh:<br>
+        <code style="background:rgba(0,0,0,.25);padding:2px 8px;border-radius:3px">
+          python -m http.server 8000 --directory dashboard
+        </code><br>
+        Then visit <a href="http://localhost:8000" style="color:#fff;font-weight:600">http://localhost:8000</a><br>
+        <small>Error detail: ${err.message}</small>
+      </div>`);
+  });
 </script>
 </body>
 </html>

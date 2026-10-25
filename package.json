@@ -6,7 +6,7 @@
   "scripts": {
     "test": "hardhat test",
     "compile": "hardhat compile",
-    "sim": "python3 sim/simulate.py",
+    "sim": "python sim/simulate.py",
     "scenarios": "hardhat run scripts/run_scenarios.js"
   },
   "keywords": [],

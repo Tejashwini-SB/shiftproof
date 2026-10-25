@@ -4,8 +4,13 @@
 3) robust anomaly flag for suspicious history days
 Writes data/sim.json, which the contract scenarios and dashboard use."""
 import json, numpy as np
+from pathlib import Path
 from sklearn.ensemble import GradientBoostingRegressor
 from sklearn.metrics import mean_absolute_error, r2_score
+
+# Always write to <repo_root>/data/sim.json regardless of where the script is run from
+OUT_PATH = Path(__file__).parent.parent / "data" / "sim.json"
+
 
 rng = np.random.default_rng(42)
 EVENT_DAY, HIST = 100, [93, 86, 79, 72]
@@ -71,7 +76,7 @@ out = dict(
   metrics=dict(forecast_mae_wh=round(float(mae), 1), forecast_r2=round(float(r2), 3),
                anomaly_tp=int(tp), anomaly_fp=int(fp), anomaly_fn=int(fn), anomaly_precision=round(prec, 2), anomaly_recall=round(rec, 2),
                note="simulated data; anomalies were injected by us, so this is a sanity check, not real-world accuracy"))
-json.dump(out, open("data/sim.json", "w"))
+json.dump(out, open(OUT_PATH, "w"))
 print("eligible hours:", eligible, "mask:", mask)
 print("forecast MAE (Wh):", out["metrics"]["forecast_mae_wh"], "R2:", out["metrics"]["forecast_r2"])
 print("anomaly TP/FP/FN:", tp, fp, fn, "precision", round(prec,2), "recall", round(rec,2))
